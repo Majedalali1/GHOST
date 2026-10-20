@@ -1,0 +1,295 @@
+<Window x:Class="GameHUD.ControlPanel"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="GameHUD" Width="900" Height="640" MinWidth="780" MinHeight="520"
+        WindowStartupLocation="CenterScreen" FlowDirection="RightToLeft"
+        Background="{StaticResource Bg}" Foreground="{StaticResource Text}"
+        FontFamily="{StaticResource UiFont}" FontSize="13"
+        UseLayoutRounding="True" TextOptions.TextFormattingMode="Display">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="220"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Sidebar -->
+        <Border Background="{StaticResource Side}" BorderBrush="{StaticResource Stroke}" BorderThickness="0,0,1,0">
+            <DockPanel Margin="14,18,14,14">
+                <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="4,0,0,22">
+                    <Image x:Name="LogoImage" Width="38" Height="38" RenderOptions.BitmapScalingMode="HighQuality"/>
+                    <StackPanel Margin="10,0,0,0" VerticalAlignment="Center">
+                        <TextBlock Text="GameHUD" FontSize="16" FontWeight="SemiBold" FlowDirection="LeftToRight" HorizontalAlignment="Left"/>
+                        <StackPanel Orientation="Horizontal">
+                            <Ellipse Width="7" Height="7" Fill="#34D399" Margin="0,1,6,0"/>
+                            <TextBlock x:Name="StatusText" Text="شغّال" Style="{StaticResource DimText}"/>
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel DockPanel.Dock="Bottom">
+                    <TextBlock x:Name="HwText" Style="{StaticResource DimText}" FlowDirection="LeftToRight" HorizontalAlignment="Right" Margin="4,0,4,8"/>
+                    <Button x:Name="ExitButton" Style="{StaticResource Btn}" HorizontalAlignment="Stretch" Click="Exit_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="&#xE7E8;" FontFamily="{StaticResource IconFont}" Margin="0,1,8,0"/>
+                            <TextBlock Text="إيقاف البرنامج"/>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+
+                <StackPanel>
+                    <RadioButton x:Name="NavApps" Style="{StaticResource Nav}" Tag="&#xE9D9;" Content="البرامج والذاكرة" GroupName="nav" Checked="Nav_Checked"/>
+                    <RadioButton x:Name="NavLook" Style="{StaticResource Nav}" Tag="&#xE790;" Content="الشكل والألوان" GroupName="nav" Checked="Nav_Checked"/>
+                    <RadioButton x:Name="NavAlerts" Style="{StaticResource Nav}" Tag="&#xEA8F;" Content="التنبيهات" GroupName="nav" Checked="Nav_Checked"/>
+                    <RadioButton x:Name="NavGeneral" Style="{StaticResource Nav}" Tag="&#xE713;" Content="عام" GroupName="nav" Checked="Nav_Checked"/>
+                </StackPanel>
+            </DockPanel>
+        </Border>
+
+        <!-- Pages -->
+        <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Auto" Padding="26,20,26,10">
+            <Grid>
+                <!-- Apps -->
+                <StackPanel x:Name="PageApps">
+                    <TextBlock Text="البرامج والذاكرة" Style="{StaticResource H1}"/>
+                    <TextBlock Text="شوف مين عم ياكل الرام وذاكرة الكرت، وسكّر اللي ما بتحتاجه قبل ما تلعب." Style="{StaticResource DimText}" Margin="0,0,0,16"/>
+
+                    <Grid Margin="0,0,0,12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="12"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Border Style="{StaticResource CardBox}" Margin="0">
+                            <StackPanel>
+                                <DockPanel>
+                                    <TextBlock Text="الرام" FontWeight="SemiBold"/>
+                                    <TextBlock x:Name="RamText" HorizontalAlignment="Right" FlowDirection="LeftToRight" Foreground="{StaticResource Dim}"/>
+                                </DockPanel>
+                                <ProgressBar x:Name="RamBar" Style="{StaticResource Meter}" Margin="0,10,0,0" Maximum="100" Foreground="{StaticResource Accent2}"/>
+                            </StackPanel>
+                        </Border>
+                        <Border Grid.Column="2" Style="{StaticResource CardBox}" Margin="0">
+                            <StackPanel>
+                                <DockPanel>
+                                    <TextBlock Text="ذاكرة الكرت (VRAM)" FontWeight="SemiBold"/>
+                                    <TextBlock x:Name="VramText" HorizontalAlignment="Right" FlowDirection="LeftToRight" Foreground="{StaticResource Dim}"/>
+                                </DockPanel>
+                                <ProgressBar x:Name="VramBar" Style="{StaticResource Meter}" Margin="0,10,0,0" Maximum="100" Foreground="{StaticResource Accent}"/>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+
+                    <Border Style="{StaticResource CardBox}" Padding="0">
+                        <StackPanel>
+                            <DockPanel Margin="18,14,18,10">
+                                <Border Style="{StaticResource SegGroup}" DockPanel.Dock="Right">
+                                    <StackPanel Orientation="Horizontal">
+                                        <RadioButton x:Name="SortRam" Style="{StaticResource Seg}" Content="حسب الرام" GroupName="sort" IsChecked="True" Checked="Sort_Checked"/>
+                                        <RadioButton x:Name="SortVram" Style="{StaticResource Seg}" Content="حسب VRAM" GroupName="sort" Checked="Sort_Checked"/>
+                                    </StackPanel>
+                                </Border>
+                                <TextBlock Text="أكتر البرامج استهلاكاً" Style="{StaticResource H2}" Margin="0" VerticalAlignment="Center"/>
+                            </DockPanel>
+                            <Grid Margin="18,0,18,6">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="30"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="90"/>
+                                    <ColumnDefinition Width="90"/>
+                                    <ColumnDefinition Width="86"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="1" Text="البرنامج" Style="{StaticResource DimText}" Margin="30,0,0,0"/>
+                                <TextBlock Grid.Column="2" Text="RAM" Style="{StaticResource DimText}"/>
+                                <TextBlock Grid.Column="3" Text="VRAM" Style="{StaticResource DimText}"/>
+                            </Grid>
+                            <Border Height="1" Background="{StaticResource Stroke}"/>
+                            <StackPanel x:Name="AppList" Margin="0,4,0,6"/>
+                            <TextBlock x:Name="AppsLoading" Text="عم نجمع المعلومات…" Style="{StaticResource DimText}" Margin="18,6,18,14"/>
+                        </StackPanel>
+                    </Border>
+
+                    <Border Style="{StaticResource CardBox}">
+                        <DockPanel>
+                            <Button x:Name="CloseSelectedButton" DockPanel.Dock="Right" Style="{StaticResource Primary}" Click="CloseSelected_Click" IsEnabled="False">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="&#xE945;" FontFamily="{StaticResource IconFont}" Margin="0,1,8,0"/>
+                                    <TextBlock x:Name="CloseSelectedText" Text="سكّر المحدد"/>
+                                </StackPanel>
+                            </Button>
+                            <StackPanel VerticalAlignment="Center">
+                                <TextBlock Text="تنظيف قبل اللعب" FontWeight="SemiBold"/>
+                                <TextBlock x:Name="BoostHint" Text="علّم البرامج اللي بدك تسكّرها وبعدين اضغط الزر." Style="{StaticResource DimText}"/>
+                            </StackPanel>
+                        </DockPanel>
+                    </Border>
+                    <TextBlock Text="البرامج المهمة لويندوز والتعريفات مخفية من القائمة عشان ما تتسكّر بالغلط. السكّر بيطلب من البرنامج يسكّر متل زر ✕، وإذا ما ردّ خلال ثانيتين بينهيه." Style="{StaticResource DimText}" Margin="4,0,4,16"/>
+                </StackPanel>
+
+                <!-- Look -->
+                <StackPanel x:Name="PageLook" Visibility="Collapsed">
+                    <TextBlock Text="الشكل والألوان" Style="{StaticResource H1}"/>
+                    <TextBlock Text="أي تعديل بيبين فوراً على الشاشة (الـHUD ظاهر طول ما هالنافذة مفتوحة)." Style="{StaticResource DimText}" Margin="0,0,0,16"/>
+
+                    <Border Style="{StaticResource CardBox}">
+                        <StackPanel>
+                            <TextBlock Text="الشكل" Style="{StaticResource H2}"/>
+                            <Border Style="{StaticResource SegGroup}">
+                                <StackPanel Orientation="Horizontal">
+                                    <RadioButton x:Name="LayoutVertical" Style="{StaticResource Seg}" GroupName="layout" Checked="Layout_Checked">
+                                        <StackPanel Orientation="Horizontal"><TextBlock Text="&#xE8FD;" FontFamily="{StaticResource IconFont}" Margin="0,1,6,0"/><TextBlock Text="طولي"/></StackPanel>
+                                    </RadioButton>
+                                    <RadioButton x:Name="LayoutHorizontal" Style="{StaticResource Seg}" GroupName="layout" Checked="Layout_Checked">
+                                        <StackPanel Orientation="Horizontal"><TextBlock Text="&#xE8C4;" FontFamily="{StaticResource IconFont}" Margin="0,1,6,0"/><TextBlock Text="عرضي (شريط)"/></StackPanel>
+                                    </RadioButton>
+                                </StackPanel>
+                            </Border>
+
+                            <TextBlock Text="المكان على الشاشة" Style="{StaticResource H2}" Margin="0,18,0,10"/>
+                            <UniformGrid x:Name="CornerGrid" Columns="3" Rows="2" Width="330" HorizontalAlignment="Left"/>
+
+                            <Grid Margin="0,18,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="28"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel>
+                                    <DockPanel><TextBlock Text="الحجم"/><TextBlock x:Name="ScaleText" HorizontalAlignment="Right" Foreground="{StaticResource Dim}" FlowDirection="LeftToRight"/></DockPanel>
+                                    <Slider x:Name="ScaleSlider" Minimum="0.7" Maximum="1.8" FlowDirection="LeftToRight" Margin="0,6,0,0" ValueChanged="Scale_Changed"/>
+                                </StackPanel>
+                                <StackPanel Grid.Column="2">
+                                    <DockPanel><TextBlock Text="غمق الخلفية"/><TextBlock x:Name="OpacityText" HorizontalAlignment="Right" Foreground="{StaticResource Dim}" FlowDirection="LeftToRight"/></DockPanel>
+                                    <Slider x:Name="OpacitySlider" Minimum="0" Maximum="1" FlowDirection="LeftToRight" Margin="0,6,0,0" ValueChanged="Opacity_Changed"/>
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+
+                    <Border Style="{StaticResource CardBox}">
+                        <StackPanel>
+                            <TextBlock Text="شو يظهر" Style="{StaticResource H2}"/>
+                            <UniformGrid Columns="2">
+                                <CheckBox x:Name="ShowFps" Style="{StaticResource Switch}" Content="FPS" Margin="0,5,24,5" Click="Show_Click"/>
+                                <CheckBox x:Name="ShowGpu" Style="{StaticResource Switch}" Content="كرت الشاشة (GPU)" Margin="0,5,24,5" Click="Show_Click"/>
+                                <CheckBox x:Name="ShowCpu" Style="{StaticResource Switch}" Content="المعالج (CPU)" Margin="0,5,24,5" Click="Show_Click"/>
+                                <CheckBox x:Name="ShowNet" Style="{StaticResource Switch}" Content="النت والبينغ" Margin="0,5,24,5" Click="Show_Click"/>
+                                <CheckBox x:Name="ShowDetails" Style="{StaticResource Switch}" Content="تفاصيل أكتر (VRAM، الرام)" Margin="0,5,24,5" Click="Show_Click"/>
+                            </UniformGrid>
+                        </StackPanel>
+                    </Border>
+
+                    <Border Style="{StaticResource CardBox}">
+                        <StackPanel>
+                            <TextBlock Text="الألوان" Style="{StaticResource H2}"/>
+                            <TextBlock Text="ثيمات جاهزة" Style="{StaticResource DimText}" Margin="0,0,0,8"/>
+                            <WrapPanel x:Name="PresetPanel" Margin="0,0,0,14"/>
+                            <TextBlock Text="أو اختار لون كل شي لحاله" Style="{StaticResource DimText}" Margin="0,0,0,8"/>
+                            <UniformGrid x:Name="ColorGrid" Columns="2"/>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+
+                <!-- Alerts -->
+                <StackPanel x:Name="PageAlerts" Visibility="Collapsed">
+                    <TextBlock Text="التنبيهات" Style="{StaticResource H1}"/>
+                    <TextBlock Text="بيطلعلك مربع صغير جوّا اللعبة بيشرحلك السبب وشو تعمل." Style="{StaticResource DimText}" Margin="0,0,0,16"/>
+
+                    <Border Style="{StaticResource CardBox}">
+                        <StackPanel>
+                            <TextBlock Text="الفريمات (FPS)" Style="{StaticResource H2}"/>
+                            <TextBlock Text="إذا الفريمات ضلّت تحت هالرقم، بقلّك إذا السبب الكرت ولا المعالج ولا الذاكرة، وشو الإعدادات اللي تنزّلها." Style="{StaticResource DimText}" Margin="0,0,0,10"/>
+                            <Border Style="{StaticResource SegGroup}">
+                                <StackPanel x:Name="FpsWarnPanel" Orientation="Horizontal"/>
+                            </Border>
+                        </StackPanel>
+                    </Border>
+
+                    <Border Style="{StaticResource CardBox}">
+                        <StackPanel>
+                            <TextBlock Text="البينغ" Style="{StaticResource H2}"/>
+                            <TextBlock Text="إذا البينغ طلع فوق هالرقم، بقلّك مين عم يسحب النت أو إذا المشكلة من الراوتر أو الـVPN أو مزود الخدمة." Style="{StaticResource DimText}" Margin="0,0,0,10"/>
+                            <Border Style="{StaticResource SegGroup}">
+                                <StackPanel x:Name="PingWarnPanel" Orientation="Horizontal"/>
+                            </Border>
+
+                            <TextBlock Text="سيرفر البينغ" FontWeight="SemiBold" Margin="0,18,0,8"/>
+                            <DockPanel>
+                                <Button DockPanel.Dock="Right" Style="{StaticResource Primary}" Content="حفظ" Margin="8,0,0,0" Click="SaveHost_Click"/>
+                                <TextBox x:Name="PingHostBox" FlowDirection="LeftToRight" KeyDown="PingHost_KeyDown"/>
+                            </DockPanel>
+                            <WrapPanel x:Name="HostPresetPanel" Margin="0,8,0,0"/>
+                            <TextBlock Text="نصيحة: إذا بتعرف IP سيرفر لعبتك حطّه هون، بيصير البينغ أقرب للي جوّا اللعبة." Style="{StaticResource DimText}" Margin="0,8,0,0"/>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+
+                <!-- General -->
+                <StackPanel x:Name="PageGeneral" Visibility="Collapsed">
+                    <TextBlock Text="عام" Style="{StaticResource H1}"/>
+                    <TextBlock Text="متى يظهر الـHUD، والتشغيل مع ويندوز، والاختصارات." Style="{StaticResource DimText}" Margin="0,0,0,16"/>
+
+                    <Border Style="{StaticResource CardBox}">
+                        <StackPanel>
+                            <TextBlock Text="متى يظهر" Style="{StaticResource H2}"/>
+                            <Border Style="{StaticResource SegGroup}">
+                                <StackPanel Orientation="Horizontal">
+                                    <RadioButton x:Name="ModeAuto" Style="{StaticResource Seg}" Content="تلقائي (بالألعاب بس)" GroupName="mode" Checked="Mode_Checked"/>
+                                    <RadioButton x:Name="ModeAlways" Style="{StaticResource Seg}" Content="دايماً" GroupName="mode" Checked="Mode_Checked"/>
+                                    <RadioButton x:Name="ModeOff" Style="{StaticResource Seg}" Content="مخفي" GroupName="mode" Checked="Mode_Checked"/>
+                                </StackPanel>
+                            </Border>
+                            <CheckBox x:Name="StartupSwitch" Style="{StaticResource Switch}" Margin="0,16,0,0" Click="Startup_Click">
+                                <StackPanel>
+                                    <TextBlock Text="يشتغل لحاله مع ويندوز"/>
+                                    <TextBlock Text="بيفتح مخفي جنب الساعة، وبدون ما يسألك عن الصلاحية كل مرة." Style="{StaticResource DimText}"/>
+                                </StackPanel>
+                            </CheckBox>
+                        </StackPanel>
+                    </Border>
+
+                    <Border Style="{StaticResource CardBox}">
+                        <StackPanel>
+                            <TextBlock Text="الألعاب" Style="{StaticResource H2}"/>
+                            <TextBlock Text="البرنامج بيعرف الألعاب لحاله. إذا لعبة ما ظهر معها (مثلاً شغّالة بنافذة) أو ظهر مع شي مش لعبة، اضغط Ctrl+Shift+G وإنت فيها." Style="{StaticResource DimText}" Margin="0,0,0,10"/>
+                            <StackPanel x:Name="GamesList"/>
+                        </StackPanel>
+                    </Border>
+
+                    <Border Style="{StaticResource CardBox}">
+                        <StackPanel>
+                            <TextBlock Text="الاختصارات" Style="{StaticResource H2}"/>
+                            <StackPanel x:Name="HotkeyList"/>
+                        </StackPanel>
+                    </Border>
+
+                    <Border x:Name="PawnIoCard" Style="{StaticResource CardBox}" Visibility="Collapsed">
+                        <DockPanel>
+                            <Button DockPanel.Dock="Right" Style="{StaticResource Primary}" Content="فتح الموقع" Click="PawnIo_Click"/>
+                            <StackPanel>
+                                <TextBlock Text="حرارة المعالج مش ظاهرة" FontWeight="SemiBold"/>
+                                <TextBlock Text="محتاج تعريف PawnIO (مجاني وموقّع) لقراءة حرارة وطاقة المعالج." Style="{StaticResource DimText}"/>
+                            </StackPanel>
+                        </DockPanel>
+                    </Border>
+                </StackPanel>
+            </Grid>
+        </ScrollViewer>
+
+        <!-- Shared color picker -->
+        <Popup x:Name="ColorPopup" StaysOpen="False" AllowsTransparency="True" Placement="Bottom" PopupAnimation="Fade">
+            <Border Background="{StaticResource Card2}" BorderBrush="{StaticResource Stroke}" BorderThickness="1" CornerRadius="12" Padding="12" Margin="6">
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="18" ShadowDepth="4" Opacity="0.5"/>
+                </Border.Effect>
+                <StackPanel Width="236" FlowDirection="LeftToRight">
+                    <WrapPanel x:Name="SwatchPanel"/>
+                    <DockPanel Margin="0,10,0,0">
+                        <Border x:Name="HexPreview" DockPanel.Dock="Left" Width="30" Height="30" CornerRadius="8" Margin="0,0,8,0" BorderBrush="#40FFFFFF" BorderThickness="1"/>
+                        <Button DockPanel.Dock="Right" Style="{StaticResource Primary}" Content="تم" Margin="8,0,0,0" Click="HexApply_Click"/>
+                        <TextBox x:Name="HexBox" TextChanged="HexBox_TextChanged" KeyDown="HexBox_KeyDown"/>
+                    </DockPanel>
+                </StackPanel>
+            </Border>
+        </Popup>
+    </Grid>
+</Window>
